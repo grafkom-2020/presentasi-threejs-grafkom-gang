@@ -1,6 +1,12 @@
 var renderer, camera;
 
+var controls = new function() {
+    this.cameraZ = 5;
+}
+
 function main(){
+    var gui = new dat.GUI();
+    gui.add(controls, 'cameraZ', 0, 10.0);
     renderer = new THREE.WebGLRenderer();
     camera = new THREE.PerspectiveCamera(75,window.innerWidth / window.innerHeight, 0.1, 1000);
     var scene = new THREE.Scene();
@@ -16,11 +22,9 @@ function main(){
     directionalLight.position.set(1,1,2.6);
     scene.add( directionalLight );
 
-
-    camera.position.z = 5;
-
     function animate(){
         requestAnimationFrame(animate);
+        camera.position.z = controls.cameraZ;
         sphere.rotation.x += 0.01;
         sphere.rotation.y += 0.01;
         renderer.render(scene,camera);

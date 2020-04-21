@@ -7,102 +7,28 @@ var controls = new function() {
         this.opacity = 0.9999;
     };
     this.alphaTest = 0.00001;
-    this.blending = {
-        NormalBlending      :THREE.NormalBlending,
-        NoBlending          :THREE.NoBlending,
-        AdditiveBlending    :THREE.AdditiveBlending,
-        SubstractiveBlending:THREE.SubtractiveBlending,
-        MultiplyBlending    :THREE.MultiplyBlending,
-        CustomBlending      :THREE.CustomBlending   
-    };
+    this.blending = THREE.NormalBlending;
     this.blendingOptions = new function(){
-        this.blendDst = {
-            OneMinusSrcAlpha    :THREE.OneMinusSrcAlphaFactor, 
-            Zero                :THREE.ZeroFactor, One:THREE.OneFactor, 
-            SrcColor            :THREE.SrcColorFactor,
-            OneMinusSrcColot    :THREE.OneMinusSrcColorFactor,
-            SrcAlpha            :THREE.SrcAlphaFactor,
-            DstColor            :THREE.DstColorFactor,
-            OneMinusDstColor    :THREE.OneMinusDstColorFactor
-        };
+        this.blendDst = THREE.OneMinusSrcAlphaFactor;
         this.blendDstAlpha = 0;
-        this.blendEquation = {
-            Add: THREE.AddEquation, 
-            Substract:THREE.SubtractEquation, 
-            ReverseSubstract:THREE.ReverseSubtractEquation, 
-            Min:THREE.MinEquation, 
-            Max:THREE.MaxEquation
-        };
+        this.blendEquation = THREE.AddEquation;
         this.blendEquationAlpha = 0;
-        this.blendSrc = {
-            OneMinusSrcAlpha    :THREE.OneMinusSrcAlphaFactor, 
-            Zero                :THREE.ZeroFactor, One:THREE.OneFactor, 
-            SrcColor            :THREE.SrcColorFactor,
-            OneMinusSrcColot    :THREE.OneMinusSrcColorFactor,
-            SrcAlpha            :THREE.SrcAlphaFactor,
-            DstColor            :THREE.DstColorFactor,
-            OneMinusDstColor    :THREE.OneMinusDstColorFactor,
-            SrcAlphaSaturate    :THREE.SrcAlphaSaturateFactor
-        };
+        this.blendSrc = THREE.SrcAlphaFactor;
         this.blendSrcAlpha = 0;
     };
     this.clipIntersection = false;
     this.clipShadows = false;
     this.colorWrite = true;
-    this.depthFunc = {
-        LessEqual               :THREE.LessEqualDepth,
-        Never                   :THREE.NeverDepth,
-        Always                  :THREE.AlwaysDepth,
-        Less                    :THREE.LessDepth,
-        GreaterEqual            :THREE.GreaterEqualDepth,
-        Greater                 :THREE.GreaterDepth,
-        NotEqual                :THREE.NotEqualDepth
-    };
+    this.depthFunc = THREE.LessEqualDepth;
     this.depthWrite = true;
     this.stencilWrite = false;
     this.stencilWriteMask = 0xFF;
-    this.stencilFunc = {
-        Always                  :THREE.AlwaysStencilFunc,
-        Never                   :THREE.NeverStencilFunc,
-        Less                    :THREE.LessStencilFunc,
-        Equal                   :THREE.EqualStencilFunc,
-        LessEqual               :THREE.LessEqualStencilFunc,
-        Greater                 :THREE.GreaterStencilFunc,
-        NotEqual                :THREE.NotEqualStencilFunc,
-        GreaterEqual            :THREE.GreaterEqualStencilFunc
-    };
+    this.stencilFunc = THREE.AlwaysStencilFunc;
     this.stencilRef = 0;
     this.stencilFuncMask = 0xFF;
-    this.stencilFail = {
-        Keep                    :THREE.KeepStencilOp,
-        Zero                    :THREE.ZeroStencilOp,
-        Replace                 :THREE.ReplaceStencilOp,
-        Increment               :THREE.IncrementStencilOp,
-        Decrement               :THREE.DecrementStencilOp,
-        IncrementWrap           :THREE.IncrementWrapStencilOp,
-        DecrementWrap           :THREE.DecrementWrapStencilOp,
-        Invert                  :THREE.InvertStencilOp
-    };
-    this.stencilZFail = {
-        Keep                    :THREE.KeepStencilOp,
-        Zero                    :THREE.ZeroStencilOp,
-        Replace                 :THREE.ReplaceStencilOp,
-        Increment               :THREE.IncrementStencilOp,
-        Decrement               :THREE.DecrementStencilOp,
-        IncrementWrap           :THREE.IncrementWrapStencilOp,
-        DecrementWrap           :THREE.DecrementWrapStencilOp,
-        Invert                  :THREE.InvertStencilOp
-    };
-    this.stencilZPass = {
-        Keep                    :THREE.KeepStencilOp,
-        Zero                    :THREE.ZeroStencilOp,
-        Replace                 :THREE.ReplaceStencilOp,
-        Increment               :THREE.IncrementStencilOp,
-        Decrement               :THREE.DecrementStencilOp,
-        IncrementWrap           :THREE.IncrementWrapStencilOp,
-        DecrementWrap           :THREE.DecrementWrapStencilOp,
-        Invert                  :THREE.InvertStencilOp
-    };
+    this.stencilFail = THREE.KeepStencilOp;
+    this.stencilZFail = THREE.KeepStencilOp;
+    this.stencilZPass = THREE.KeepStencilOp;
     this.flatShading = false;
     this.fog = true;
     this.polygonOffset = false;
@@ -112,17 +38,8 @@ var controls = new function() {
     };
     this.premultipliedAlpha = false;
     this.dithering = false;
-    this.shadowSide = {
-        Null                    :null,
-        Front                   :THREE.FrontSide,
-        Back                    :THREE.FrontSide,
-        Double                  :THREE.DoubleSide
-    };
-    this.side = {
-        Front                   :THREE.FrontSide,
-        Back                    :THREE.FrontSide,
-        Double                  :THREE.DoubleSide
-    };
+    this.shadowSide = null;
+    this.side = THREE.FrontSide;
     this.toneMapped = true;
     this.vertexColors = false;
     this.visible = true;
@@ -144,7 +61,14 @@ function addGui(){
     transparentOptionsFolderContext.add(controls.transparentOptions,'opacity',0.0,1.0);
     transparentOptionsFolderContext.close();
     transparentOptionsFolderContext.hide();
-    gui.add(controls,'blending',controls.blending).onChange(function(value){
+    gui.add(controls,'blending',{
+        NormalBlending      :THREE.NormalBlending,
+        NoBlending          :THREE.NoBlending,
+        AdditiveBlending    :THREE.AdditiveBlending,
+        SubstractiveBlending:THREE.SubtractiveBlending,
+        MultiplyBlending    :THREE.MultiplyBlending,
+        CustomBlending      :THREE.CustomBlending   
+    }).onChange(function(value){
         if(value == THREE.CustomBlending){
            customBlendingOptionsFolderContext.show();
            customBlendingOptionsFolderContext.open();
@@ -154,11 +78,40 @@ function addGui(){
         }
     });
     var customBlendingOptionsFolderContext = gui.addFolder('Blending Options');
-    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDst',controls.blendingOptions.blendDst);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDst',{
+        Zero                :THREE.ZeroFactor, 
+        One                 :THREE.OneFactor, 
+        SrcColor            :THREE.SrcColorFactor,
+        OneMinusSrcColor    :THREE.OneMinusSrcColorFactor,
+        SrcAlpha            :THREE.SrcAlphaFactor,
+        OneMinusSrcAlpha    :THREE.OneMinusSrcAlphaFactor,
+        OneMinusDstAlpha    :THREE.DstAlphaFactor,
+        OneMinusDstAlpha    :THREE.OneMinusDstAlphaFactor,
+        DstColor            :THREE.DstColorFactor,
+        OneMinusDstColor    :THREE.OneMinusDstColorFactor
+    });
     customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDstAlpha',-10,10);
-    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquation',controls.blendingOptions.blendEquation);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquation',{
+        Add                 :THREE.AddEquation, 
+        Substract           :THREE.SubtractEquation, 
+        ReverseSubstract    :THREE.ReverseSubtractEquation, 
+        Min                 :THREE.MinEquation,
+        Max                 :THREE.MaxEquation
+    });
     customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquationAlpha',-10,10);
-    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrc',controls.blendingOptions.blendSrc);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrc',{
+        Zero                :THREE.ZeroFactor, 
+        One                 :THREE.OneFactor, 
+        SrcColor            :THREE.SrcColorFactor,
+        OneMinusSrcColor    :THREE.OneMinusSrcColorFactor,
+        SrcAlpha            :THREE.SrcAlphaFactor,
+        OneMinusSrcAlpha    :THREE.OneMinusSrcAlphaFactor,
+        OneMinusDstAlpha    :THREE.DstAlphaFactor,
+        OneMinusDstAlpha    :THREE.OneMinusDstAlphaFactor,
+        DstColor            :THREE.DstColorFactor,
+        OneMinusDstColor    :THREE.OneMinusDstColorFactor,
+        SrcAlphaSaturate    :THREE.SrcAlphaSaturateFactor
+    });
     customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrcAlpha',-10,10);
     customBlendingOptionsFolderContext.hide();
     customBlendingOptionsFolderContext.close();
@@ -166,16 +119,60 @@ function addGui(){
     gui.add(controls,'clipIntersection');
     gui.add(controls,'clipShadows');
     gui.add(controls,'colorWrite');
-    gui.add(controls,'depthFunc',controls.depthFunc);
+    gui.add(controls,'depthFunc',{
+        LessEqual               :THREE.LessEqualDepth,
+        Never                   :THREE.NeverDepth,
+        Always                  :THREE.AlwaysDepth,
+        Less                    :THREE.LessDepth,
+        GreaterEqual            :THREE.GreaterEqualDepth,
+        Greater                 :THREE.GreaterDepth,
+        NotEqual                :THREE.NotEqualDepth
+    });
     gui.add(controls,'depthWrite');
     gui.add(controls,'stencilWrite');
     gui.add(controls,'stencilWriteMask'); // gatau range nya sumpah
-    gui.add(controls,'stencilFunc',controls.stencilFunc);
+    gui.add(controls,'stencilFunc',{
+        Always                  :THREE.AlwaysStencilFunc,
+        Never                   :THREE.NeverStencilFunc,
+        Less                    :THREE.LessStencilFunc,
+        Equal                   :THREE.EqualStencilFunc,
+        LessEqual               :THREE.LessEqualStencilFunc,
+        Greater                 :THREE.GreaterStencilFunc,
+        NotEqual                :THREE.NotEqualStencilFunc,
+        GreaterEqual            :THREE.GreaterEqualStencilFunc
+    });
     gui.add(controls,'stencilRef');
     gui.add(controls,'stencilFuncMask'); // gatau range nya sumpah
-    gui.add(controls,'stencilFail',controls.stencilFail);
-    gui.add(controls,'stencilZFail',controls.stencilZFail);
-    gui.add(controls,'stencilZPass',controls.stencilZPass);
+    gui.add(controls,'stencilFail',{
+        Keep                    :THREE.KeepStencilOp,
+        Zero                    :THREE.ZeroStencilOp,
+        Replace                 :THREE.ReplaceStencilOp,
+        Increment               :THREE.IncrementStencilOp,
+        Decrement               :THREE.DecrementStencilOp,
+        IncrementWrap           :THREE.IncrementWrapStencilOp,
+        DecrementWrap           :THREE.DecrementWrapStencilOp,
+        Invert                  :THREE.InvertStencilOp
+    });
+    gui.add(controls,'stencilZFail',{
+        Keep                    :THREE.KeepStencilOp,
+        Zero                    :THREE.ZeroStencilOp,
+        Replace                 :THREE.ReplaceStencilOp,
+        Increment               :THREE.IncrementStencilOp,
+        Decrement               :THREE.DecrementStencilOp,
+        IncrementWrap           :THREE.IncrementWrapStencilOp,
+        DecrementWrap           :THREE.DecrementWrapStencilOp,
+        Invert                  :THREE.InvertStencilOp
+    });
+    gui.add(controls,'stencilZPass',{
+        Keep                    :THREE.KeepStencilOp,
+        Zero                    :THREE.ZeroStencilOp,
+        Replace                 :THREE.ReplaceStencilOp,
+        Increment               :THREE.IncrementStencilOp,
+        Decrement               :THREE.DecrementStencilOp,
+        IncrementWrap           :THREE.IncrementWrapStencilOp,
+        DecrementWrap           :THREE.DecrementWrapStencilOp,
+        Invert                  :THREE.InvertStencilOp
+    });
     gui.add(controls,'flatShading');
     gui.add(controls,'fog');
     gui.add(controls,'polygonOffset').onChange(function(value){
@@ -194,8 +191,17 @@ function addGui(){
     polygonOffsetOptionsFolderContext.close();
     gui.add(controls,'premultipliedAlpha');
     gui.add(controls,'dithering');
-    gui.add(controls,'shadowSide',controls.shadowSide);
-    gui.add(controls,'side',controls.side);
+    gui.add(controls,'shadowSide',{
+        Null                    :null,
+        Front                   :THREE.FrontSide,
+        Back                    :THREE.BackSide,
+        Double                  :THREE.DoubleSide
+    });
+    gui.add(controls,'side',{
+        Front                   :THREE.FrontSide,
+        Back                    :THREE.BackSide,
+        Double                  :THREE.DoubleSide
+    });
     gui.add(controls,'toneMapped');
     gui.add(controls,'vertexColors');
     gui.add(controls,'visible');
@@ -235,6 +241,39 @@ function main(){
 function setMaterialsOnControls(material){
     material.transparent = controls.transparent;
     material.opacity = controls.transparentOptions.opacity;
+    material.alphaTest = controls.alphaTest;
+    material.blending = controls.blending;
+    material.blendDst = controls.blendingOptions.blendDst;
+    material.blendDstAlpha = controls.blendingOptions.blendDstAlpha;
+    material.blendEquation = controls.blendingOptions.blendEquation;
+    material.blendEquationAlpha = controls.blendingOptions.blendEquationAlpha;
+    material.blendSrc = controls.blendingOptions.blendSrc;
+    material.blendSrcAlpha = controls.blendingOptions.blendSrcAlpha;
+    material.clipIntersection = controls.clipIntersection;
+    material.clipShadows = controls.clipShadows;
+    material.colorWrite = controls.colorWrite;
+    material.depthFunc = controls.depthFunc;
+    material.depthWrite = controls.depthWrite;
+    material.stencilWrite = controls.stencilWrite;
+    material.stencilWriteMask = controls.stencilWriteMask;
+    material.stencilFunc = controls.stencilFunc;
+    material.stencilRef = controls.stencilRef;
+    material.stencilFuncMask = controls.stencilFuncMask;
+    material.stencilFail = controls.stencilFail;
+    material.stencilZFail = controls.stencilZFail;
+    material.stencilZPass = controls.stencilZPass;
+    material.flatShading = controls.flatShading;
+    material.fog = controls.fog;
+    material.polygonOffset = controls.polygonOffset;
+    material.polygonOffsetFactor = controls.polygonOffsetOptions.polygonOffsetFactor;
+    material.polygonOffsetUnits = controls.polygonOffsetOptions.polygonOffsetUnits;
+    material.premultipliedAlpha = controls.premultipliedAlpha;
+    material.dithering = controls.dithering;
+    material.shadowSide = controls.shadowSide;
+    material.side = controls.side;
+    material.toneMapped = controls.toneMapped;
+    material.vertexColors = controls.vertexColors;
+    material.visible = controls.visible;
 }
 
 function resize() {

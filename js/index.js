@@ -2,7 +2,11 @@ var renderer, camera;
 
 var controls = new function() {
     this.cameraZ = 5;
-    this.alphaTest = 0.001;
+    this.transparent = false;
+    this.transparentOptions = new function(){
+        this.opacity = 0.9999;
+    };
+    this.alphaTest = 0.00001;
     this.blending = {
         NormalBlending      :THREE.NormalBlending,
         NoBlending          :THREE.NoBlending,
@@ -101,10 +105,6 @@ var controls = new function() {
     };
     this.flatShading = false;
     this.fog = true;
-    this.transparent = false;
-    this.transparentOptions = new function(){
-        this.opacity = 0.99;
-    };
     this.polygonOffset = false;
     this.polygonOffsetOptions = new function(){
         this.polygonOffsetFactor = 0;
@@ -156,13 +156,17 @@ function addGui(){
             customBlendingOptionsFolderContext = null;
         }
     });
-    gui.add(controls, 'clipIntersection');
+    gui.add(controls,'alphaTest',0.0,1.0);
+    gui.add(controls,'clipIntersection');
     gui.add(controls,'clipShadows');
     gui.add(controls,'colorWrite');
     gui.add(controls,'depthFunc',controls.depthFunc);
     gui.add(controls,'depthWrite');
     gui.add(controls,'stencilWrite');
     gui.add(controls,'stencilWriteMask'); // gatau range nya sumpah
+    gui.add(controls,'stencilFunc',controls.stencilFunc);
+    gui.add(controls,'stencilRef');
+    gui.add(controls,'stencilFuncMask'); // gatau range nya sumpah
     gui.add(controls,'stencilFail',controls.stencilFail);
     gui.add(controls,'stencilZFail',controls.stencilZFail);
     gui.add(controls,'stencilZPass',controls.stencilZPass);

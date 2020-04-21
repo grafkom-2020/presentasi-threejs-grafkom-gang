@@ -2,6 +2,7 @@ var renderer, camera;
 
 var controls = new function() {
     this.cameraZ = 5;
+    this.color = 0xffffff;
     this.transparent = false;
     this.transparentOptions = new function(){
         this.opacity = 0.9999;
@@ -48,6 +49,7 @@ var controls = new function() {
 function addGui(){
     var gui = new dat.GUI();
     gui.add(controls, 'cameraZ', 0, 10.0);
+    gui.addColor(controls,'color');
     gui.add(controls, 'transparent').onChange(function(value){
         if(value){
             transparentOptionsFolderContext.show();
@@ -219,7 +221,7 @@ function main(){
     document.body.appendChild(renderer.domElement);
 
     var geometry = new THREE.SphereGeometry(1,32,32);
-    var material = new THREE.MeshStandardMaterial( { color: 0xffffff , alphaTest : 0.5} );
+    var material = new THREE.MeshStandardMaterial( { color: 0xffffff } );
     var sphere = new THREE.Mesh( geometry, material );
     scene.add( sphere );
 
@@ -240,6 +242,7 @@ function main(){
 
 function setMaterialsOnControls(material){
     material.transparent = controls.transparent;
+    material.color.setHex(controls.color);
     material.opacity = controls.transparentOptions.opacity;
     material.alphaTest = controls.alphaTest;
     material.blending = controls.blending;

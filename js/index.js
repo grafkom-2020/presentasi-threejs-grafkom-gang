@@ -131,31 +131,37 @@ var controls = new function() {
 function addGui(){
     var gui = new dat.GUI();
     gui.add(controls, 'cameraZ', 0, 10.0);
-    var transparentOptionsFolderContext = null;
     gui.add(controls, 'transparent').onChange(function(value){
         if(value){
-            transparentOptionsFolderContext = gui.addFolder('Opacity');
-            transparentOptionsFolderContext.add(controls.transparentOptions,'opacity',0.0,1.0);
+            transparentOptionsFolderContext.show();
+            transparentOptionsFolderContext.open();
         }else{
-            gui.removeFolder(transparentOptionsFolderContext);
-            transparentOptionsFolderContext = null;
+            transparentOptionsFolderContext.hide();
+            transparentOptionsFolderContext.close();
         }
     });
-    var customBlendingOptionsFolderContext = null;
+    var transparentOptionsFolderContext = gui.addFolder('Opacity');
+    transparentOptionsFolderContext.add(controls.transparentOptions,'opacity',0.0,1.0);
+    transparentOptionsFolderContext.close();
+    transparentOptionsFolderContext.hide();
     gui.add(controls,'blending',controls.blending).onChange(function(value){
         if(value == THREE.CustomBlending){
-            customBlendingOptionsFolderContext = gui.addFolder('Blending Options');
-            customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDst',controls.blendingOptions.blendDst);
-            customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDstAlpha',-10,10);
-            customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquation',controls.blendingOptions.blendEquation);
-            customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquationAlpha',-10,10);
-            customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrc',controls.blendingOptions.blendSrc);
-            customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrcAlpha',-10,10);
+           customBlendingOptionsFolderContext.show();
+           customBlendingOptionsFolderContext.open();
         }else{
-            gui.removeFolder(customBlendingOptionsFolderContext);
-            customBlendingOptionsFolderContext = null;
+            customBlendingOptionsFolderContext.hide();
+            customBlendingOptionsFolderContext.close();
         }
     });
+    var customBlendingOptionsFolderContext = gui.addFolder('Blending Options');
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDst',controls.blendingOptions.blendDst);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDstAlpha',-10,10);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquation',controls.blendingOptions.blendEquation);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquationAlpha',-10,10);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrc',controls.blendingOptions.blendSrc);
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrcAlpha',-10,10);
+    customBlendingOptionsFolderContext.hide();
+    customBlendingOptionsFolderContext.close();
     gui.add(controls,'alphaTest',0.0,1.0);
     gui.add(controls,'clipIntersection');
     gui.add(controls,'clipShadows');
@@ -172,17 +178,20 @@ function addGui(){
     gui.add(controls,'stencilZPass',controls.stencilZPass);
     gui.add(controls,'flatShading');
     gui.add(controls,'fog');
-    var polygonOffsetOptionsFolderContext = null;
     gui.add(controls,'polygonOffset').onChange(function(value){
         if(value){
-            polygonOffsetOptionsFolderContext = gui.addFolder('Polygon Offset Options');
-            polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetFactor',-10,10);
-            polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetUnits',-10,10);
+            polygonOffsetOptionsFolderContext.show();
+            polygonOffsetOptionsFolderContext.open();
         }else{
-            gui.removeFolder(polygonOffsetOptionsFolderContext);
-            polygonOffsetOptionsFolderContext = null;
+            polygonOffsetOptionsFolderContext.hide();
+            polygonOffsetOptionsFolderContext.close();
         }
     });
+    var polygonOffsetOptionsFolderContext = gui.addFolder('Polygon Offset Options');
+    polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetFactor',-10,10);
+    polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetUnits',-10,10);
+    polygonOffsetOptionsFolderContext.hide();
+    polygonOffsetOptionsFolderContext.close();
     gui.add(controls,'premultipliedAlpha');
     gui.add(controls,'dithering');
     gui.add(controls,'shadowSide',controls.shadowSide);

@@ -48,8 +48,8 @@ var controls = new function() {
 
 function addGui(){
     var gui = new dat.GUI();
-    gui.add(controls, 'cameraZ', 0, 10.0);
-    gui.addColor(controls,'color');
+    gui.add(controls, 'cameraZ', 0, 10.0).listen();
+    gui.addColor(controls,'color').listen();
     gui.add(controls, 'transparent').onChange(function(value){
         if(value){
             transparentOptionsFolderContext.show();
@@ -58,9 +58,9 @@ function addGui(){
             transparentOptionsFolderContext.hide();
             transparentOptionsFolderContext.close();
         }
-    });
+    }).listen();
     var transparentOptionsFolderContext = gui.addFolder('Opacity');
-    transparentOptionsFolderContext.add(controls.transparentOptions,'opacity',0.0,1.0);
+    transparentOptionsFolderContext.add(controls.transparentOptions,'opacity',0.0,1.0).listen();
     transparentOptionsFolderContext.close();
     transparentOptionsFolderContext.hide();
     gui.add(controls,'blending',{
@@ -69,7 +69,7 @@ function addGui(){
         AdditiveBlending    :THREE.AdditiveBlending,
         SubstractiveBlending:THREE.SubtractiveBlending,
         MultiplyBlending    :THREE.MultiplyBlending,
-        CustomBlending      :THREE.CustomBlending   
+        CustomBlending      :THREE.CustomBlending,
     }).onChange(function(value){
         if(value == THREE.CustomBlending){
            customBlendingOptionsFolderContext.show();
@@ -78,7 +78,7 @@ function addGui(){
             customBlendingOptionsFolderContext.hide();
             customBlendingOptionsFolderContext.close();
         }
-    });
+    }).listen();
     var customBlendingOptionsFolderContext = gui.addFolder('Blending Options');
     customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDst',{
         Zero                :THREE.ZeroFactor, 
@@ -91,16 +91,16 @@ function addGui(){
         OneMinusDstAlpha    :THREE.OneMinusDstAlphaFactor,
         DstColor            :THREE.DstColorFactor,
         OneMinusDstColor    :THREE.OneMinusDstColorFactor
-    });
-    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDstAlpha',-10,10);
+    }).listen();
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendDstAlpha',-10,10).listen();
     customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquation',{
         Add                 :THREE.AddEquation, 
         Substract           :THREE.SubtractEquation, 
         ReverseSubstract    :THREE.ReverseSubtractEquation, 
         Min                 :THREE.MinEquation,
         Max                 :THREE.MaxEquation
-    });
-    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquationAlpha',-10,10);
+    }).listen();
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendEquationAlpha',-10,10).listen();
     customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrc',{
         Zero                :THREE.ZeroFactor, 
         One                 :THREE.OneFactor, 
@@ -113,14 +113,14 @@ function addGui(){
         DstColor            :THREE.DstColorFactor,
         OneMinusDstColor    :THREE.OneMinusDstColorFactor,
         SrcAlphaSaturate    :THREE.SrcAlphaSaturateFactor
-    });
-    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrcAlpha',-10,10);
+    }).listen();
+    customBlendingOptionsFolderContext.add(controls.blendingOptions,'blendSrcAlpha',-10,10).listen();
     customBlendingOptionsFolderContext.hide();
     customBlendingOptionsFolderContext.close();
-    gui.add(controls,'alphaTest',0.0,1.0);
-    gui.add(controls,'clipIntersection');
-    gui.add(controls,'clipShadows');
-    gui.add(controls,'colorWrite');
+    gui.add(controls,'alphaTest',0.0,1.0).listen();
+    gui.add(controls,'clipIntersection').listen();
+    gui.add(controls,'clipShadows').listen();
+    gui.add(controls,'colorWrite').listen();
     gui.add(controls,'depthFunc',{
         LessEqual               :THREE.LessEqualDepth,
         Never                   :THREE.NeverDepth,
@@ -129,10 +129,10 @@ function addGui(){
         GreaterEqual            :THREE.GreaterEqualDepth,
         Greater                 :THREE.GreaterDepth,
         NotEqual                :THREE.NotEqualDepth
-    });
-    gui.add(controls,'depthWrite');
-    gui.add(controls,'stencilWrite');
-    gui.add(controls,'stencilWriteMask'); // gatau range nya sumpah
+    }).listen();
+    gui.add(controls,'depthWrite').listen();
+    gui.add(controls,'stencilWrite').listen();
+    gui.add(controls,'stencilWriteMask').listen(); // gatau range nya sumpah
     gui.add(controls,'stencilFunc',{
         Always                  :THREE.AlwaysStencilFunc,
         Never                   :THREE.NeverStencilFunc,
@@ -142,9 +142,9 @@ function addGui(){
         Greater                 :THREE.GreaterStencilFunc,
         NotEqual                :THREE.NotEqualStencilFunc,
         GreaterEqual            :THREE.GreaterEqualStencilFunc
-    });
-    gui.add(controls,'stencilRef');
-    gui.add(controls,'stencilFuncMask'); // gatau range nya sumpah
+    }).listen();
+    gui.add(controls,'stencilRef').listen();
+    gui.add(controls,'stencilFuncMask').listen(); // gatau range nya sumpah
     gui.add(controls,'stencilFail',{
         Keep                    :THREE.KeepStencilOp,
         Zero                    :THREE.ZeroStencilOp,
@@ -154,7 +154,7 @@ function addGui(){
         IncrementWrap           :THREE.IncrementWrapStencilOp,
         DecrementWrap           :THREE.DecrementWrapStencilOp,
         Invert                  :THREE.InvertStencilOp
-    });
+    }).listen();
     gui.add(controls,'stencilZFail',{
         Keep                    :THREE.KeepStencilOp,
         Zero                    :THREE.ZeroStencilOp,
@@ -164,7 +164,7 @@ function addGui(){
         IncrementWrap           :THREE.IncrementWrapStencilOp,
         DecrementWrap           :THREE.DecrementWrapStencilOp,
         Invert                  :THREE.InvertStencilOp
-    });
+    }).listen();
     gui.add(controls,'stencilZPass',{
         Keep                    :THREE.KeepStencilOp,
         Zero                    :THREE.ZeroStencilOp,
@@ -174,9 +174,9 @@ function addGui(){
         IncrementWrap           :THREE.IncrementWrapStencilOp,
         DecrementWrap           :THREE.DecrementWrapStencilOp,
         Invert                  :THREE.InvertStencilOp
-    });
-    gui.add(controls,'flatShading');
-    gui.add(controls,'fog');
+    }).listen();
+    gui.add(controls,'flatShading').listen();
+    gui.add(controls,'fog').listen();
     gui.add(controls,'polygonOffset').onChange(function(value){
         if(value){
             polygonOffsetOptionsFolderContext.show();
@@ -185,28 +185,28 @@ function addGui(){
             polygonOffsetOptionsFolderContext.hide();
             polygonOffsetOptionsFolderContext.close();
         }
-    });
+    }).listen();
     var polygonOffsetOptionsFolderContext = gui.addFolder('Polygon Offset Options');
-    polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetFactor',-10,10);
-    polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetUnits',-10,10);
+    polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetFactor',-10,10).listen();
+    polygonOffsetOptionsFolderContext.add(controls.polygonOffsetOptions,'polygonOffsetUnits',-10,10).listen();
     polygonOffsetOptionsFolderContext.hide();
     polygonOffsetOptionsFolderContext.close();
-    gui.add(controls,'premultipliedAlpha');
-    gui.add(controls,'dithering');
+    gui.add(controls,'premultipliedAlpha').listen();
+    gui.add(controls,'dithering').listen();
     gui.add(controls,'shadowSide',{
         Null                    :null,
         Front                   :THREE.FrontSide,
         Back                    :THREE.BackSide,
         Double                  :THREE.DoubleSide
-    });
+    }).listen();
     gui.add(controls,'side',{
         Front                   :THREE.FrontSide,
         Back                    :THREE.BackSide,
         Double                  :THREE.DoubleSide
-    });
-    gui.add(controls,'toneMapped');
-    gui.add(controls,'vertexColors');
-    gui.add(controls,'visible');
+    }).listen();
+    gui.add(controls,'toneMapped').listen();
+    gui.add(controls,'vertexColors').listen();
+    gui.add(controls,'visible').listen();
     
     return gui;
 }
@@ -221,14 +221,14 @@ function main(){
     document.body.appendChild(renderer.domElement);
 
     var geometry = new THREE.SphereGeometry(1,32,32);
-    var material = new THREE.MeshStandardMaterial( { color: 0xffffff } );
+    var material = new THREE.MeshBasicMaterial();
     var sphere = new THREE.Mesh( geometry, material );
     scene.add( sphere );
 
     var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(1,1,2.6);
     scene.add( directionalLight );
-
+    
     function animate(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
@@ -277,6 +277,7 @@ function setMaterialsOnControls(material){
     material.toneMapped = controls.toneMapped;
     material.vertexColors = controls.vertexColors;
     material.visible = controls.visible;
+
 }
 
 function resize() {

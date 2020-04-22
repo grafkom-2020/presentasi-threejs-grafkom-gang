@@ -6,7 +6,7 @@ function addGuiMeshBasic(gui, controls){
 
 function main(){
 
-    var material = new THREE.MeshBasicMaterial();
+    var material = new THREE.MeshNormalMaterial();
 
     var controls = new Control(material);
 

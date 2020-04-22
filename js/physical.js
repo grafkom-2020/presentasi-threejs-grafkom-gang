@@ -142,7 +142,7 @@ function main(){
     sphere.position.x = -2.5;
     scene.add( sphere );
 
-    var geometry1 = new THREE.BoxGeometry(1, 1, 1);
+    var geometry1 = new THREE.BoxGeometry(1, 1, 1, 32, 32, 32);
     var box = new THREE.Mesh(geometry1, material);
     box.position.x = 2.5;
     scene.add(box);

@@ -54,10 +54,7 @@ function addGui(){
     MatcapMaterialContext.addColor(controls.MatcapMaterial,'color').listen();
     MatcapMaterialContext.add(controls.MatcapMaterial,'matcap',{
         none                    :0,
-        porcelain_white         :1,
-        shiny                   :2,
-        metal                   :3,
-        frosted                 :4
+        porcelain_white         :1
     }).listen();
 
     return gui;
@@ -79,9 +76,6 @@ function main(){
 
     var loader = new THREE.TextureLoader();
     var porcelain_white = loader.load("textures/matcap-porcelain-white.jpg");
-    var shiny = loader.load("textures/matcap-shiny.jpg");
-    var metal = loader.load("textures/matcap-metal.jpg");
-    var frosted = loader.load("textures/matcap-frosted.jpg");
 
     var geometry = new THREE.SphereGeometry(1,32,32);
     
@@ -110,9 +104,6 @@ function main(){
         setMaterialsOnControls(material);
         if(controls.MatcapMaterial.matcap == 0) material.matcap = null;
         else if(controls.MatcapMaterial.matcap == 1) material.matcap = porcelain_white;
-        else if (controls.MatcapMaterial.matcap == 2) material.matcap = shiny;
-        else if (controls.MatcapMaterial.matcap == 3) material.matcap = metal;
-        else if (controls.MatcapMaterial.matcap == 4) material.matcap = frosted;
         material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);

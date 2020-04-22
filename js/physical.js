@@ -69,6 +69,10 @@ function addGui(){
         none                    :0,
         concrete                :1
     }).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial, 'displacementScale', 0, 1).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial, 'displacementBias', -5, 5).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial, 'normalScale', 0, 1).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial, 'roughness', 0, 1).listen();
     
     return gui;
 }
@@ -87,6 +91,9 @@ function main(){
     var material = new THREE.MeshPhysicalMaterial();
     var loader = new THREE.TextureLoader();
     var concrete_texture = loader.load("textures/concrete_base.jpg");
+    var concrete_displacement = loader.load("textures/concrete_height.png");
+    var concrete_normal = loader.load("textures/concrete_normal.jpg");
+    var concrete_roughness = loader.load("textures/concrete_roughness.jpg");
 
     var sphere = new THREE.Mesh( geometry, material );
     sphere.position.x = -2.5;
@@ -111,8 +118,23 @@ function main(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
         setMaterialsOnControls(material);
-        if(controls.PhysicalMaterial.map == 0) material.map = null;
-        else if(controls.PhysicalMaterial.map == 1) material.map = concrete_texture;
+        if(controls.PhysicalMaterial.map == 0) {
+            material.map = null;
+            material.normalMap = null;
+            material.displacementMap = null;
+            material.normalMap = null;
+            material.roughnessMap = null;
+        } else if(controls.PhysicalMaterial.map == 1) {
+            material.map = concrete_texture;
+            material.normalMap = concrete_normal;
+            material.displacementMap = concrete_displacement;
+            material.normalMap = concrete_normal;
+            material.roughnessMap = concrete_roughness;
+        }
+        material.displacementScale = controls.PhysicalMaterial.displacementScale;
+        material.displacementBias = controls.PhysicalMaterial.displacementBias;
+        material.normalScale = new THREE.Vector2(controls.PhysicalMaterial.normalScale, controls.PhysicalMaterial.normalScale);
+        material.roughness = controls.PhysicalMaterial.roughness;
         material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);

@@ -27,6 +27,11 @@ var controls = new function() {
             this.wireframeLinewidth = 0.9999;
         }
         this.map = 0;
+        this.displacementOptions = new function(){
+            this.displacementScale = 0.5;
+            this.displacementBias = 0;
+            this.normalScale = 1.0;
+        }
     }
 }
 
@@ -91,8 +96,22 @@ function addGui(){
     StandardMaterialContext.add(controls.StandardMaterial,'map',{
         none                    :0,
         concrete                :1
+    }).onChange(function(value){
+        if(value == 1){
+            displacementOptionsFolderContext.show();
+            displacementOptionsFolderContext.open();
+        }else{
+            displacementOptionsFolderContext.hide();
+            displacementOptionsFolderContext.close();
+        }
     }).listen();
 
+    var displacementOptionsFolderContext = StandardMaterialContext.addFolder('Displacement Settings');
+    displacementOptionsFolderContext.add(controls.StandardMaterial.displacementOptions, 'displacementScale', 0, 1).listen();
+    displacementOptionsFolderContext.add(controls.StandardMaterial.displacementOptions, 'displacementBias', -5, 5).listen();
+    displacementOptionsFolderContext.add(controls.StandardMaterial.displacementOptions, 'normalScale', 0, 1).listen();
+    displacementOptionsFolderContext.hide();
+    displacementOptionsFolderContext.close();
 
 
     return gui;
@@ -111,6 +130,10 @@ function main(){
     var material = new THREE.MeshStandardMaterial();
     var loader = new THREE.TextureLoader();
     var concrete_texture = loader.load("textures/concrete_base.jpg");
+    var concrete_displacement = loader.load("textures/concrete_height.png");
+    var concrete_normal = loader.load("textures/concrete_normal.jpg");
+    var concrete_roughness = loader.load("textures/concrete_roughness.jpg");
+
 
     var geometry = new THREE.SphereGeometry(1,32,32);
     
@@ -137,8 +160,19 @@ function main(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
         setMaterialsOnControls(material);
-        if(controls.StandardMaterial.map == 0) material.map = null;
-        else if(controls.StandardMaterial.map == 1) material.map = concrete_texture;
+        if(controls.StandardMaterial.map == 0) {
+            material.map = null;
+            material.normalMap = null;
+            material.displacementMap = null;
+            material.normalMap = null;
+            material.roughnessMap = null;
+        } else if(controls.StandardMaterial.map == 1) {
+            material.map = concrete_texture;
+            material.normalMap = concrete_normal;
+            material.displacementMap = concrete_displacement;
+            material.normalMap = concrete_normal;
+            material.roughnessMap = concrete_roughness;
+        }
         material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);
@@ -166,6 +200,9 @@ function setMaterialsOnControls(material){
     material.wireframeLinecap = controls.StandardMaterial.wireframeOptions.wireframeLinecap;
     material.wireframeLinejoin = controls.StandardMaterial.wireframeOptions.wireframeLinejoin;
     material.wireframeLinewidth = controls.StandardMaterial.wireframeOptions.wireframeLinewidth;
+    material.displacementScale = controls.StandardMaterial.displacementScale;
+    material.displacementBias = controls.StandardMaterial.displacementBias;
+    material.normalScale = new THREE.Vector2(controls.StandardMaterial.normalScale, controls.StandardMaterial.normalScale);
 }
 
 function rotateMesh(mesh){

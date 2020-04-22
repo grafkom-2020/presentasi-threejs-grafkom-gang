@@ -21,12 +21,21 @@ var controls = new function() {
         this.clearcoat = 0.00001;
         this.clearcoatRoughness = 0.00001;
         this.reflectivity = 0.5;
-        this.transparency = 0.00001;
-        this.map = 1;
-        this.displacementScale = 0.5;
-        this.displacementBias = 0;
-        this.normalScale = 1.0;
+        this.metalness  = 0.00001;
         this.roughness = 0.4;
+        this.transparency = 0.00001;
+        this.wireframe = false;
+        this.wireframeOptions = new function(){
+            this.wireframeLinecap = "round";
+            this.wireframeLinejoin = "round";
+            this.wireframeLinewidth = 0.9999;
+        }
+        this.map = 1;
+        this.displacementOptions = new function(){
+            this.displacementScale = 0.5;
+            this.displacementBias = 0;
+            this.normalScale = 1.0;
+        }
     }
 }
 
@@ -64,16 +73,50 @@ function addGui(){
     physicalMaterialContext.add(controls.PhysicalMaterial,'clearcoat',0.0,1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'clearcoatRoughness',0.0,1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'reflectivity',0.0,1.0).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial, 'roughness', 0.0, 1.0).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial, 'metalness', 0.0, 1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'transparency',0.0,1.0).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial,'wireframe').onChange(function(value){
+        if(value){
+            wireframeOptionsFolderContext.show();
+            wireframeOptionsFolderContext.open();
+        }else{
+            wireframeOptionsFolderContext.hide();
+            wireframeOptionsFolderContext.close();
+        }
+    }).listen();
+    var wireframeOptionsFolderContext = physicalMaterialContext.addFolder('Wireframe Settings');
+    wireframeOptionsFolderContext.add(controls.PhysicalMaterial.wireframeOptions,'wireframeLinecap',{
+        butt                     :"butt",
+        round                    :"round",
+        square                   :"square"
+    }).listen();
+    wireframeOptionsFolderContext.add(controls.PhysicalMaterial.wireframeOptions,'wireframeLinejoin',{
+        bevel                    :"bevel",
+        round                    :"round",
+        miter                    :"miter"
+    }).listen();
+    wireframeOptionsFolderContext.add(controls.PhysicalMaterial.wireframeOptions,'wireframeLinewidth',0.0,1.0).listen()
+    wireframeOptionsFolderContext.hide();
+    wireframeOptionsFolderContext.close();
     physicalMaterialContext.add(controls.PhysicalMaterial,'map',{
         none                    :0,
         concrete                :1
+    }).onChange(function(value){
+        if(value == 1){
+            displacementOptionsFolderContext.show();
+            displacementOptionsFolderContext.open();
+        }else{
+            displacementOptionsFolderContext.hide();
+            displacementOptionsFolderContext.close();
+        }
     }).listen();
-    physicalMaterialContext.add(controls.PhysicalMaterial, 'displacementScale', 0, 1).listen();
-    physicalMaterialContext.add(controls.PhysicalMaterial, 'displacementBias', -5, 5).listen();
-    physicalMaterialContext.add(controls.PhysicalMaterial, 'normalScale', 0, 1).listen();
-    physicalMaterialContext.add(controls.PhysicalMaterial, 'roughness', 0, 1).listen();
-    
+
+    var displacementOptionsFolderContext = physicalMaterialContext.addFolder('Displacement Settings');
+    displacementOptionsFolderContext.add(controls.PhysicalMaterial.displacementOptions, 'displacementScale', 0, 1).listen();
+    displacementOptionsFolderContext.add(controls.PhysicalMaterial.displacementOptions, 'displacementBias', -5, 5).listen();
+    displacementOptionsFolderContext.add(controls.PhysicalMaterial.displacementOptions, 'normalScale', 0, 1).listen();
+    displacementOptionsFolderContext.open();
     return gui;
 }
 
@@ -131,9 +174,7 @@ function main(){
             material.normalMap = concrete_normal;
             material.roughnessMap = concrete_roughness;
         }
-        material.displacementScale = controls.PhysicalMaterial.displacementScale;
-        material.displacementBias = controls.PhysicalMaterial.displacementBias;
-        material.normalScale = new THREE.Vector2(controls.PhysicalMaterial.normalScale, controls.PhysicalMaterial.normalScale);
+        
         material.roughness = controls.PhysicalMaterial.roughness;
         material.needsUpdate = true;
         rotateMesh(sphere);
@@ -157,7 +198,15 @@ function setMaterialsOnControls(material){
     material.clearcoatRoughness = controls.PhysicalMaterial.clearcoatRoughness;
     material.reflectivity = controls.PhysicalMaterial.reflectivity;
     material.transparency = controls.PhysicalMaterial.transparency;
-
+    material.wireframe = controls.PhysicalMaterial.wireframe;
+    material.wireframeLinecap = controls.PhysicalMaterial.wireframeOptions.wireframeLinecap;
+    material.wireframeLinejoin = controls.PhysicalMaterial.wireframeOptions.wireframeLinejoin;
+    material.wireframeLinewidth = controls.PhysicalMaterial.wireframeOptions.wireframeLinewidth;
+    material.metalness = controls.PhysicalMaterial.metalness;
+    material.roughness = controls.PhysicalMaterial.roughness;
+    material.displacementScale = controls.PhysicalMaterial.displacementOptions.displacementScale;
+    material.displacementBias = controls.PhysicalMaterial.displacementOptions.displacementBias;
+    material.normalScale = new THREE.Vector2(controls.PhysicalMaterial.displacementOptions.normalScale, controls.PhysicalMaterial.displacementOptions.normalScale);
 }
 
 function rotateMesh(mesh){

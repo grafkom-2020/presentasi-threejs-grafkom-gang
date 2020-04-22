@@ -1,12 +1,21 @@
 var renderer, camera;
 
+var extraControls = new function() {
+    this.texture = 0;
+}
+
 function addGuiMeshBasic(gui, controls){
     gui.addColor(controls,'color').listen();
+    gui.add(extraControls, 'texture', {
+        None: 0,
+        Concrete: 1
+    });
 }
 
 function main(){
 
     var material = new THREE.MeshBasicMaterial();
+    var concrete = new THREE.TextureLoader().load('textures/concrete_base.jpg');
 
     var controls = new Control(material);
 
@@ -48,6 +57,18 @@ function main(){
         controls.setMaterialToThis(sphere.material);
         controls.setMaterialToThis(box.material);
         controls.setMaterialToThis(plane.material);
+        if (extraControls.texture == 0) {
+            sphere.material.map = null;
+            box.material.map = null;
+            plane.material.map = null;
+        } else if (extraControls.texture == 1) {
+            sphere.material.map = concrete;
+            box.material.map = concrete;
+            plane.material.map = concrete;
+        }
+        sphere.material.needsUpdate = true;
+        box.material.needsUpdate = true;
+        plane.material.needsUpdate = true;
         setBasicMaterialOnControl(sphere.material, controls);
         setBasicMaterialOnControl(box.material, controls);
         setBasicMaterialOnControl(plane.material, controls);

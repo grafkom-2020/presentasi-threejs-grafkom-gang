@@ -1,10 +1,24 @@
 var renderer, camera;
 
+var controls = new function() {
+    this.cameraZ = 5;
+    this.normalMap = 0;
+    this.normalScale = 1;
+    this.newGui = function() {
+        var gui = new dat.GUI();
+        gui.add(this, 'cameraZ', 0, 10.0);
+        gui.add(this, 'normalMap', {
+            None: 0,
+            Concrete: 1
+        });
+        gui.add(this, 'normalScale', 0, 1);
+    }
+}
+
 function main(){
 
     var material = new THREE.MeshNormalMaterial();
-
-    var controls = new Control(material);
+    var concrete = new THREE.TextureLoader().load('textures/concrete_normal.jpg');
 
     var gui = controls.newGui();
 
@@ -37,10 +51,11 @@ function main(){
     
     function animate(){
         requestAnimationFrame(animate);
+        if (controls.normalMap == 0) material.normalMap = null;
+        else if (controls.normalMap == 1) material.normalMap = concrete;
+        material.needsUpdate = true;
+        material.normalScale = new THREE.Vector2(controls.normalScale, controls.normalScale);
         camera.position.z = controls.cameraZ;
-        controls.setMaterialToThis(sphere.material);
-        controls.setMaterialToThis(box.material);
-        controls.setMaterialToThis(plane.material);
         rotateMesh(sphere);
         rotateMesh(box);
         renderer.render(scene,camera);

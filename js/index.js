@@ -281,6 +281,7 @@ function setMaterialsOnControls(material){
 }
 
 function resize() {
+    if (!camera) return;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth,window.innerHeight);

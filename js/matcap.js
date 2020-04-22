@@ -102,15 +102,8 @@ function main(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
         setMaterialsOnControls(material);
-        console.log(controls.MatcapMaterial.matcap);
-        switch(controls.MatcapMaterial.matcap){
-            case 1:
-                material.matcap = porcelain_white;
-                break;
-            case 0:
-                material.matcap = null;
-                break;
-        }
+        if(controls.MatcapMaterial.matcap == 0) material.matcap = null;
+        else if(controls.MatcapMaterial.matcap == 1) material.matcap = porcelain_white;
         material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);

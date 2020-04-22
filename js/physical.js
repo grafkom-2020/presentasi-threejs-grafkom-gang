@@ -1,5 +1,8 @@
 var renderer, camera;
 
+
+
+
 var controls = new function() {
     this.cameraZ = 5;
     this.Material = new function(){
@@ -19,6 +22,7 @@ var controls = new function() {
         this.clearcoatRoughness = 0.00001;
         this.reflectivity = 0.5;
         this.transparency = 0.00001;
+        this.map = 0;
     }
 }
 
@@ -57,6 +61,10 @@ function addGui(){
     physicalMaterialContext.add(controls.PhysicalMaterial,'clearcoatRoughness',0.0,1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'reflectivity',0.0,1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'transparency',0.0,1.0).listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial,'map',{
+        none                    :0,
+        concrete                :1
+    }).listen();
     
     return gui;
 }
@@ -71,11 +79,11 @@ function main(){
     document.body.appendChild(renderer.domElement);
 
     var geometry = new THREE.SphereGeometry(1,32,32);
-    var material = new THREE.MeshPhysicalMaterial();
-    material.needsUpdate = true;
-
-    var geometry = new THREE.SphereGeometry(1,32,32);
     
+    var material = new THREE.MeshPhysicalMaterial();
+    var loader = new THREE.TextureLoader();
+    var concrete_texture = loader.load("textures/concrete_base.jpg");
+
     var sphere = new THREE.Mesh( geometry, material );
     sphere.position.x = -2.5;
     scene.add( sphere );
@@ -98,9 +106,10 @@ function main(){
     function animate(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
-        setMaterialsOnControls(sphere.material);
-        setMaterialsOnControls(box.material);
-        setMaterialsOnControls(plane.material);
+        setMaterialsOnControls(material);
+        if(controls.PhysicalMaterial.map == 0) material.map = null;
+        else if(controls.PhysicalMaterial.map == 1) material.map = concrete_texture;
+        material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);
         renderer.render(scene,camera);

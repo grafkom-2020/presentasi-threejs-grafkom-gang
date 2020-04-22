@@ -73,8 +73,23 @@ function main(){
     var geometry = new THREE.SphereGeometry(1,32,32);
     var material = new THREE.MeshPhysicalMaterial();
     material.needsUpdate = true;
+
+    var geometry = new THREE.SphereGeometry(1,32,32);
+    
     var sphere = new THREE.Mesh( geometry, material );
+    sphere.position.x = -2.5;
     scene.add( sphere );
+
+    var geometry1 = new THREE.BoxGeometry(1, 1, 1);
+    var box = new THREE.Mesh(geometry1, material);
+    box.position.x = 2.5;
+    scene.add(box);
+
+    var geometry2 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+    var plane = new THREE.Mesh(geometry2, material);
+    plane.rotation.x = -90 * Math.PI / 180;
+    plane.position.y = -100;
+    scene.add(plane);
 
     var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(1,1,2.6);
@@ -84,8 +99,10 @@ function main(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
         setMaterialsOnControls(sphere.material);
-        sphere.rotation.x += 0.01;
-        sphere.rotation.y += 0.01;
+        setMaterialsOnControls(box.material);
+        setMaterialsOnControls(plane.material);
+        rotateMesh(sphere);
+        rotateMesh(box);
         renderer.render(scene,camera);
     }
     animate();
@@ -106,6 +123,11 @@ function setMaterialsOnControls(material){
     material.reflectivity = controls.PhysicalMaterial.reflectivity;
     material.transparency = controls.PhysicalMaterial.transparency;
 
+}
+
+function rotateMesh(mesh){
+    mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.01;
 }
 
 function resize() {

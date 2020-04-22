@@ -1,0 +1,129 @@
+var renderer, camera;
+
+var extraControls = new function() {
+    this.texture = 0;
+    this.normal = 0;
+    this.envMap = 0;
+}
+
+function addGuiMeshToon(gui, controls){
+    gui.addColor(controls,'color').listen();
+    gui.add(extraControls, 'texture', {
+        None: 0,
+        Concrete: 1
+    });
+    gui.add(extraControls, 'normal', {
+        None: 0,
+        Concrete: 1
+    });
+    gui.add(extraControls, 'envMap', {
+        None: 0,
+        Environment: 1
+    });
+}
+
+function main(){
+
+    var material = new THREE.MeshPhongMaterial();
+    var concrete = new THREE.TextureLoader().load('textures/concrete_base.jpg');
+    var concreteNormal = new THREE.TextureLoader().load('textures/concrete_normal.jpg');
+    var environment = new THREE.TextureLoader()
+    environment.load('textures/environment.jpg', function(texture){
+        material.envMap = null;
+    });
+
+    var controls = new Control(material);
+
+    var gui = controls.newGui();
+
+    controls.color = material.color.getHex();
+    addGuiMeshToon(gui, controls);
+
+    renderer = new THREE.WebGLRenderer();
+    camera = new THREE.PerspectiveCamera(75,window.innerWidth / window.innerHeight, 0.1, 1000);
+    var scene = new THREE.Scene();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+
+    var geometry = new THREE.SphereGeometry(1,32,32);
+    var sphere = new THREE.Mesh( geometry, material );
+    sphere.position.x = -2.5;
+    scene.add( sphere );
+
+    var geometry1 = new THREE.BoxGeometry(1, 1, 1);
+    var box = new THREE.Mesh(geometry1, material);
+    box.position.x = 2.5;
+    scene.add(box);
+
+    var geometry2 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
+    var plane = new THREE.Mesh(geometry2, material);
+    plane.rotation.x = -90 * Math.PI / 180;
+    plane.position.y = -100;
+    scene.add(plane);
+
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1,1,2.6);
+    scene.add( directionalLight );
+    
+    function animate(){
+        requestAnimationFrame(animate);
+        camera.position.z = controls.cameraZ;
+        controls.setMaterialToThis(sphere.material);
+        controls.setMaterialToThis(box.material);
+        controls.setMaterialToThis(plane.material);
+        if (extraControls.texture == 0) {
+            sphere.material.map = null;
+            box.material.map = null;
+            plane.material.map = null;
+        } else if (extraControls.texture == 1) {
+            sphere.material.map = concrete;
+            box.material.map = concrete;
+            plane.material.map = concrete;
+        }
+        if(extraControls.normal == 0){
+            sphere.material.normalMap = null;
+            box.material.normalMap = null;
+            plane.material.normalMap = null;
+        }else if(extraControls.normal == 1){
+            sphere.material.normalMap = concreteNormal;
+            box.material.normalMap = concreteNormal;
+            plane.material.normalMap = concreteNormal;
+        }
+        if(extraControls.envMap == 0){
+            sphere.material.envMap = null;
+            box.material.envMap = null;
+            plane.material.envMap = null;
+        }else if(extraControls.envMap == 1){
+            sphere.material.envMap = environment;
+            box.material.envMap = environment;
+            plane.material.envMap = environment;
+        }
+        sphere.material.needsUpdate = true;
+        box.material.needsUpdate = true;
+        plane.material.needsUpdate = true;
+        setToonMaterialOnControl(sphere.material, controls);
+        setToonMaterialOnControl(box.material, controls);
+        setToonMaterialOnControl(plane.material, controls);
+        rotateMesh(sphere);
+        rotateMesh(box);
+        renderer.render(scene,camera);
+    }
+    animate();
+}
+
+function rotateMesh(mesh){
+    mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.01;
+}
+
+function setToonMaterialOnControl(material, controls){
+    material.color.setHex(controls.color);
+}
+
+function resize() {
+    if (!camera) return;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+}

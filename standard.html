@@ -3,17 +3,28 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Grafkom Gang - Working with Material</title>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				overflow-y: hidden;
-			}
-		</style>
+		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body onload="main()" onresize="resize()">
+        <div class="dropdown-material">
+			<button class="dropbtn">Material</button>
+			<div class="dropdown-content">
+				<a class="active">MeshBasicMaterial</a>
+				<a href="normal.html">MeshNormalMaterial</a>
+				<a>MeshLambertMaterial</a>
+				<a>MeshPhongMaterial</a>
+				<a class="active">MeshStandardMaterial</a>
+				<a href="physical.html">MeshPhysicalMaterial</a>
+				<a href="line.html">LineBasicMaterial</a>
+				<a>MeshDepthMaterial</a>
+				<a href="line-dashed.html">LineDashedMaterial</a>
+				<a>PointsMaterial</a>
+				<a>SpriteMaterial</a>
+			</div>
+		</div> 
 		<script src="js/lib/three.min.js"></script>
 		<script src="js/lib/dat.gui.min.js"></script>
+        <script type="text/javascript" src="js/control.js"></script>
 		<script type="text/javascript" src="js/standard.js"></script>
 	</body>
 </html>

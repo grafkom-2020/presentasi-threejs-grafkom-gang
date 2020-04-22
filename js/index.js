@@ -220,8 +220,17 @@ function main(){
     renderer.setSize(window.innerWidth,window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    var mat = document.getElementsByClassName("active")[0].innerHTML;
+    var material = null;
+    if (mat === 'MeshBasicMaterial') {
+        material = new THREE.MeshBasicMaterial();
+    } else if (mat === 'MeshNormalMaterial') {
+        material = new THREE.MeshNormalMaterial();
+    } else {
+        material = new THREE.MeshBasicMaterial();
+    }
+
     var geometry = new THREE.SphereGeometry(1,32,32);
-    var material = new THREE.MeshBasicMaterial();
     var sphere = new THREE.Mesh( geometry, material );
     scene.add( sphere );
 
@@ -242,7 +251,7 @@ function main(){
 
 function setMaterialsOnControls(material){
     material.transparent = controls.transparent;
-    material.color.setHex(controls.color);
+    if (material instanceof THREE.MeshBasicMaterial) material.color.setHex(controls.color);
     material.opacity = controls.transparentOptions.opacity;
     material.alphaTest = controls.alphaTest;
     material.blending = controls.blending;

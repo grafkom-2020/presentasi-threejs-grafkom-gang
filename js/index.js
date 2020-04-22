@@ -12,10 +12,8 @@ function main(){
 
     var gui = controls.newGui();
 
-    if(material instanceof THREE.MeshBasicMaterial){
-        controls.color = material.color.getHex();
-        addGuiMeshBasic(gui, controls);
-    }
+    controls.color = material.color.getHex();
+    addGuiMeshBasic(gui, controls);
 
     renderer = new THREE.WebGLRenderer();
     camera = new THREE.PerspectiveCamera(75,window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -50,11 +48,9 @@ function main(){
         controls.setMaterialToThis(sphere.material);
         controls.setMaterialToThis(box.material);
         controls.setMaterialToThis(plane.material);
-        if(material instanceof THREE.MeshBasicMaterial){
-            setBasicMaterialOnControl(sphere.material, controls);
-            setBasicMaterialOnControl(box.material, controls);
-            setBasicMaterialOnControl(plane.material, controls);
-        }
+        setBasicMaterialOnControl(sphere.material, controls);
+        setBasicMaterialOnControl(box.material, controls);
+        setBasicMaterialOnControl(plane.material, controls);
         rotateMesh(sphere);
         rotateMesh(box);
         renderer.render(scene,camera);

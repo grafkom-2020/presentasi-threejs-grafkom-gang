@@ -23,7 +23,7 @@ var controls = new function() {
         this.reflectivity = 0.5;
         this.transparency = 0.00001;
         this.map = 1;
-        this.displacementScale = 0.5;
+        this.displacementScale = 0.05;
         this.displacementBias = 0;
         this.normalScale = 1.0;
         this.roughness = 0.4;
@@ -99,7 +99,7 @@ function main(){
     sphere.position.x = -2.5;
     scene.add( sphere );
 
-    var geometry1 = new THREE.BoxGeometry(1, 1, 1);
+    var geometry1 = new THREE.BoxGeometry(1, 1, 1, 32, 32, 32);
     var box = new THREE.Mesh(geometry1, material);
     box.position.x = 2.5;
     scene.add(box);

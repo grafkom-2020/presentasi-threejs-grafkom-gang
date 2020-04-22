@@ -26,6 +26,7 @@ var controls = new function() {
             this.wireframeLinejoin = "round";
             this.wireframeLinewidth = 0.9999;
         }
+        this.map = 0;
     }
 }
 
@@ -87,6 +88,10 @@ function addGui(){
     wireframeOptionsFolderContext.add(controls.StandardMaterial.wireframeOptions,'wireframeLinewidth',0.0,1.0).listen()
     wireframeOptionsFolderContext.hide();
     wireframeOptionsFolderContext.close();
+    StandardMaterialContext.add(controls.StandardMaterial,'map',{
+        none                    :0,
+        concrete                :1
+    }).listen();
 
 
 
@@ -104,7 +109,8 @@ function main(){
 
     var geometry = new THREE.SphereGeometry(1,32,32);
     var material = new THREE.MeshStandardMaterial();
-    material.needsUpdate = true;
+    var loader = new THREE.TextureLoader();
+    var concrete_texture = loader.load("textures/concrete_base.jpg");
 
     var geometry = new THREE.SphereGeometry(1,32,32);
     
@@ -130,9 +136,10 @@ function main(){
     function animate(){
         requestAnimationFrame(animate);
         camera.position.z = controls.cameraZ;
-        setMaterialsOnControls(sphere.material);
-        setMaterialsOnControls(box.material);
-        setMaterialsOnControls(plane.material);
+        setMaterialsOnControls(material);
+        if(controls.StandardMaterial.map == 0) material.map = null;
+        else if(controls.StandardMaterial.map == 1) material.map = concrete_texture;
+        material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);
         renderer.render(scene,camera);

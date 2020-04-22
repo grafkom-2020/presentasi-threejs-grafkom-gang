@@ -165,17 +165,13 @@ function main(){
             material.map = null;
             material.normalMap = null;
             material.displacementMap = null;
-            material.normalMap = null;
             material.roughnessMap = null;
         } else if(controls.PhysicalMaterial.map == 1) {
             material.map = concrete_texture;
             material.normalMap = concrete_normal;
             material.displacementMap = concrete_displacement;
-            material.normalMap = concrete_normal;
             material.roughnessMap = concrete_roughness;
         }
-        
-        material.roughness = controls.PhysicalMaterial.roughness;
         material.needsUpdate = true;
         rotateMesh(sphere);
         rotateMesh(box);

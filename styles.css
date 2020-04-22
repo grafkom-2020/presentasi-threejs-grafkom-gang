@@ -4,30 +4,47 @@ body {
     overflow-y: hidden;
 }
 
-.topnav {
-  background-color: #333;
-  overflow: hidden;
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
 }
 
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
+.dropdown-material {
+  color: black;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
   text-decoration: none;
-  font-size: 17px;
+  display: block;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
+.dropdown-content a.active {
   background-color: #4287f5;
   color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
 }
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown-material:hover .dropdown-content {display: block;}
+
+.dropdown-material:hover .dropbtn {background-color: #3e8e41;} 

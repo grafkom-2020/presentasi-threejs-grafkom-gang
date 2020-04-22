@@ -27,10 +27,14 @@ function main(){
     var material = new THREE.MeshPhongMaterial();
     var concrete = new THREE.TextureLoader().load('textures/concrete_base.jpg');
     var concreteNormal = new THREE.TextureLoader().load('textures/concrete_normal.jpg');
-    var environment = new THREE.TextureLoader()
-    environment.load('textures/environment.jpg', function(texture){
-        material.envMap = null;
-    });
+    var loader = new THREE.CubeTextureLoader();
+    loader.setPath('textures/cubemap/');
+
+    var textureCube = loader.load( [
+        'px.jpg', 'nx.jpg',
+        'py.jpg', 'ny.jpg',
+        'pz.jpg', 'nz.jpg'
+    ] );
 
     var controls = new Control(material);
 
@@ -57,7 +61,7 @@ function main(){
     scene.add(box);
 
     var geometry2 = new THREE.PlaneGeometry(10000, 10000, 100, 100);
-    var plane = new THREE.Mesh(geometry2, material);
+    var plane = new THREE.Mesh(geometry2, material.clone());
     plane.rotation.x = -90 * Math.PI / 180;
     plane.position.y = -100;
     scene.add(plane);
@@ -95,9 +99,8 @@ function main(){
             box.material.envMap = null;
             plane.material.envMap = null;
         }else if(extraControls.envMap == 1){
-            sphere.material.envMap = environment;
-            box.material.envMap = environment;
-            plane.material.envMap = environment;
+            sphere.material.envMap = textureCube;
+            box.material.envMap = textureCube;
         }
         sphere.material.needsUpdate = true;
         box.material.needsUpdate = true;

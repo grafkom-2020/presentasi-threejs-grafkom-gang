@@ -6,26 +6,26 @@
 		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body onload="main()" onresize="resize()">
-		<div class="dropdown-material">
+        <div class="dropdown-material">
 			<button class="dropbtn">Material</button>
 			<div class="dropdown-content">
 				<a href="index.html">MeshBasicMaterial</a>
-				<a class="active">MeshNormalMaterial</a>
-				<a href="lambert.html">MeshLambertMaterial</a>
+				<a href="normal.html">MeshNormalMaterial</a>
+				<a class="active">MeshLambertMaterial</a>
 				<a>MeshPhongMaterial</a>
 				<a href="standard.html">MeshStandardMaterial</a>
 				<a href="physical.html">MeshPhysicalMaterial</a>
-				<a href="matcap.html">MeshMatcapMaterial</a>
+				<a class="active">MeshMatcapMaterial</a>
 				<a href="line.html">LineBasicMaterial</a>
 				<a>MeshDepthMaterial</a>
 				<a href="line-dashed.html">LineDashedMaterial</a>
 				<a>PointsMaterial</a>
 				<a>SpriteMaterial</a>
 			</div>
-		  </div> 
+		</div> 
 		<script src="js/lib/three.min.js"></script>
 		<script src="js/lib/dat.gui.min.js"></script>
-		<script type="text/javascript" src="js/control.js"></script>
-		<script type="text/javascript" src="js/normal.js"></script>
+        <script type="text/javascript" src="js/control.js"></script>
+		<script type="text/javascript" src="js/matcap.js"></script>
 	</body>
 </html>

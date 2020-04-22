@@ -55,7 +55,7 @@ function addGui(){
     physicalMaterialContext.addColor(controls.PhysicalMaterial,'color').listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'clearcoat',0.0,1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'clearcoatRoughness',0.0,1.0).listen();
-    physicalMaterialContext.add(controls.PhysicalMaterial,'reflectivity').listen();
+    physicalMaterialContext.add(controls.PhysicalMaterial,'reflectivity',0.0,1.0).listen();
     physicalMaterialContext.add(controls.PhysicalMaterial,'transparency',0.0,1.0).listen();
     
     return gui;

@@ -164,13 +164,11 @@ function main(){
             material.map = null;
             material.normalMap = null;
             material.displacementMap = null;
-            material.normalMap = null;
             material.roughnessMap = null;
         } else if(controls.StandardMaterial.map == 1) {
             material.map = concrete_texture;
             material.normalMap = concrete_normal;
             material.displacementMap = concrete_displacement;
-            material.normalMap = concrete_normal;
             material.roughnessMap = concrete_roughness;
         }
         material.needsUpdate = true;
@@ -200,9 +198,9 @@ function setMaterialsOnControls(material){
     material.wireframeLinecap = controls.StandardMaterial.wireframeOptions.wireframeLinecap;
     material.wireframeLinejoin = controls.StandardMaterial.wireframeOptions.wireframeLinejoin;
     material.wireframeLinewidth = controls.StandardMaterial.wireframeOptions.wireframeLinewidth;
-    material.displacementScale = controls.StandardMaterial.displacementScale;
-    material.displacementBias = controls.StandardMaterial.displacementBias;
-    material.normalScale = new THREE.Vector2(controls.StandardMaterial.normalScale, controls.StandardMaterial.normalScale);
+    material.displacementScale = controls.StandardMaterial.displacementOptions.displacementScale;
+    material.displacementBias = controls.StandardMaterial.displacementOptions.displacementBias;
+    material.normalScale = new THREE.Vector2(controls.StandardMaterial.displacementOptions.normalScale, controls.StandardMaterial.displacementOptions.normalScale);
 }
 
 function rotateMesh(mesh){
